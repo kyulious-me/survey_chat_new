@@ -6,7 +6,6 @@
     <title>삼쩜삼 서류검토 Q&A</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
         body {
             font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Segoe UI', sans-serif;
             background: #f5f6fa;
@@ -14,7 +13,6 @@
             display: flex;
             flex-direction: column;
         }
-
         header {
             background: #1a1a2e;
             color: white;
@@ -24,19 +22,8 @@
             gap: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
-
-        header .logo {
-            font-size: 22px;
-            font-weight: 700;
-            color: #7b9fff;
-        }
-
-        header .subtitle {
-            font-size: 13px;
-            color: #aab4cc;
-            margin-top: 2px;
-        }
-
+        header .logo { font-size: 20px; font-weight: 700; color: #7b9fff; }
+        header .subtitle { font-size: 12px; color: #aab4cc; margin-top: 2px; }
         header .badge {
             margin-left: auto;
             background: #2e3a5c;
@@ -45,55 +32,38 @@
             padding: 4px 10px;
             border-radius: 12px;
             font-weight: 600;
+            cursor: pointer;
         }
-
         #chat-area {
             flex: 1;
             overflow-y: auto;
-            padding: 24px 16px;
+            padding: 20px 16px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
             max-width: 860px;
             width: 100%;
             margin: 0 auto;
         }
-
-        .message {
-            display: flex;
-            gap: 10px;
-            animation: fadeIn 0.2s ease;
-        }
-
+        .message { display: flex; gap: 10px; animation: fadeIn 0.2s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; } }
-
         .message.user { flex-direction: row-reverse; }
-
         .avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            flex-shrink: 0;
-            margin-top: 2px;
+            width: 34px; height: 34px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 15px; flex-shrink: 0; margin-top: 2px;
         }
-
         .message.assistant .avatar { background: #1a1a2e; }
         .message.user .avatar { background: #3d5afe; }
-
         .bubble {
             max-width: 72%;
-            padding: 12px 16px;
+            padding: 11px 15px;
             border-radius: 14px;
-            font-size: 14.5px;
-            line-height: 1.65;
+            font-size: 14px;
+            line-height: 1.7;
             white-space: pre-wrap;
             word-break: break-word;
         }
-
         .message.assistant .bubble {
             background: white;
             color: #222;
@@ -101,47 +71,32 @@
             border-top-left-radius: 4px;
             box-shadow: 0 1px 4px rgba(0,0,0,0.06);
         }
-
         .message.user .bubble {
             background: #3d5afe;
             color: white;
             border-top-right-radius: 4px;
         }
-
         .typing-indicator {
-            display: flex;
-            gap: 5px;
-            padding: 14px 18px;
-            background: white;
-            border: 1px solid #e5e8f0;
-            border-radius: 14px;
-            border-top-left-radius: 4px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-            width: fit-content;
+            display: flex; gap: 5px; padding: 13px 16px;
+            background: white; border: 1px solid #e5e8f0;
+            border-radius: 14px; border-top-left-radius: 4px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06); width: fit-content;
         }
-
         .typing-indicator span {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #aab4cc;
-            animation: bounce 1.2s infinite;
+            width: 7px; height: 7px; border-radius: 50%;
+            background: #aab4cc; animation: bounce 1.2s infinite;
         }
-
         .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
         .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
-
         @keyframes bounce {
             0%, 60%, 100% { transform: translateY(0); }
             30% { transform: translateY(-6px); }
         }
-
         #input-area {
             background: white;
             border-top: 1px solid #e5e8f0;
-            padding: 14px 16px;
+            padding: 12px 16px;
         }
-
         #input-inner {
             max-width: 860px;
             margin: 0 auto;
@@ -149,134 +104,107 @@
             gap: 10px;
             align-items: flex-end;
         }
-
         #user-input {
             flex: 1;
             border: 1.5px solid #dde2f0;
             border-radius: 10px;
-            padding: 11px 14px;
-            font-size: 14.5px;
+            padding: 10px 13px;
+            font-size: 14px;
             font-family: inherit;
             resize: none;
             outline: none;
             line-height: 1.5;
-            max-height: 160px;
+            max-height: 140px;
             overflow-y: auto;
             transition: border-color 0.15s;
         }
-
         #user-input:focus { border-color: #3d5afe; }
-
         #send-btn {
-            width: 42px;
-            height: 42px;
-            border-radius: 10px;
-            border: none;
-            background: #3d5afe;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 40px; height: 40px;
+            border-radius: 10px; border: none;
+            background: #3d5afe; color: white;
+            font-size: 17px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
-            transition: background 0.15s, transform 0.1s;
-        }
-
-        #send-btn:hover { background: #2a46e0; }
-        #send-btn:active { transform: scale(0.95); }
-        #send-btn:disabled { background: #c0c8e8; cursor: not-allowed; }
-
-        .quick-questions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 4px;
-        }
-
-        .quick-q {
-            background: #eef1ff;
-            color: #3d5afe;
-            border: 1px solid #c5cef8;
-            border-radius: 20px;
-            padding: 7px 14px;
-            font-size: 13px;
-            cursor: pointer;
             transition: background 0.15s;
         }
-
+        #send-btn:hover { background: #2a46e0; }
+        #send-btn:disabled { background: #c0c8e8; cursor: not-allowed; }
+        .quick-questions { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
+        .quick-q {
+            background: #eef1ff; color: #3d5afe;
+            border: 1px solid #c5cef8; border-radius: 20px;
+            padding: 6px 13px; font-size: 12.5px; cursor: pointer;
+            transition: background 0.15s; font-family: inherit;
+        }
         .quick-q:hover { background: #dce3ff; }
-
-        .welcome-card {
-            background: white;
-            border: 1px solid #e5e8f0;
-            border-radius: 16px;
-            padding: 20px 22px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        /* API Key Modal */
+        #modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.5); z-index: 100;
+            align-items: center; justify-content: center;
         }
-
-        .welcome-card h3 {
-            font-size: 15px;
-            color: #1a1a2e;
-            margin-bottom: 10px;
+        #modal-overlay.show { display: flex; }
+        #modal {
+            background: white; border-radius: 16px;
+            padding: 28px; width: 90%; max-width: 440px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
         }
-
-        .welcome-card p {
-            font-size: 13.5px;
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 14px;
+        #modal h2 { font-size: 17px; margin-bottom: 8px; color: #1a1a2e; }
+        #modal p { font-size: 13px; color: #666; margin-bottom: 16px; line-height: 1.6; }
+        #api-key-input {
+            width: 100%; border: 1.5px solid #dde2f0;
+            border-radius: 8px; padding: 10px 12px;
+            font-size: 13px; font-family: monospace;
+            outline: none; margin-bottom: 12px;
         }
-
-        .topics {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
+        #api-key-input:focus { border-color: #3d5afe; }
+        #save-key-btn {
+            width: 100%; background: #3d5afe; color: white;
+            border: none; border-radius: 8px; padding: 11px;
+            font-size: 14px; cursor: pointer; font-family: inherit;
         }
-
-        .topic-tag {
-            background: #f0f3ff;
-            color: #3d5afe;
-            border: 1px solid #c5cef8;
-            border-radius: 6px;
-            padding: 4px 10px;
-            font-size: 12.5px;
-            font-weight: 600;
-        }
-
-        #status-bar {
-            font-size: 11.5px;
-            color: #aab4cc;
-            text-align: center;
-            padding: 6px 0 0;
-        }
-
-        #status-bar.error { color: #e74c3c; }
+        #save-key-btn:hover { background: #2a46e0; }
+        .error-msg { color: #e74c3c; font-size: 12.5px; margin-top: 6px; }
     </style>
 </head>
 <body>
+
+<!-- API Key Modal -->
+<div id="modal-overlay">
+    <div id="modal">
+        <h2>🔑 Anthropic API 키 설정</h2>
+        <p>챗봇을 사용하려면 Anthropic API 키가 필요해요.<br>
+        키는 브라우저에만 저장되며 외부로 전송되지 않아요.<br>
+        <a href="https://console.anthropic.com" target="_blank" style="color:#3d5afe">console.anthropic.com</a>에서 발급할 수 있어요.</p>
+        <input type="password" id="api-key-input" placeholder="sk-ant-api03-..." />
+        <div id="key-error" class="error-msg" style="display:none"></div>
+        <button id="save-key-btn" onclick="saveApiKey()">저장하고 시작하기</button>
+    </div>
+</div>
 
 <header>
     <div>
         <div class="logo">삼쩜삼 서류검토 도우미</div>
         <div class="subtitle">월세 · 기부금 · 중소기업취업감면 Q&A</div>
     </div>
-    <div class="badge">내부 전용</div>
+    <div class="badge" onclick="showApiKeyModal()" title="API 키 변경">⚙️ 내부 전용</div>
 </header>
 
 <div id="chat-area">
     <div class="message assistant">
         <div class="avatar">🤖</div>
         <div>
-            <div class="bubble">안녕하세요! 저는 추가공제 서류검토 가이드를 학습한 AI 어시스턴트입니다.<br><br>
-월세, 기부금, 중소기업취업감면(중취감) 서류 심사 관련 질문에 답변해 드릴게요. 아래 예시 질문을 눌러보거나 직접 입력해 주세요.</div>
-            <div class="quick-questions" style="margin-top: 10px;">
+            <div class="bubble">안녕하세요! 추가공제 서류검토 가이드를 학습한 AI 어시스턴트입니다.
+
+월세, 기부금, 중소기업취업감면(중취감) 서류 심사 관련 질문에 답변해 드릴게요.</div>
+            <div class="quick-questions">
                 <button class="quick-q" onclick="sendQuick(this.textContent)">납입증명서 예금주와 임차인이 다르면?</button>
                 <button class="quick-q" onclick="sendQuick(this.textContent)">초본에 '본인 거주자' 표기 시 세대주 인정?</button>
                 <button class="quick-q" onclick="sendQuick(this.textContent)">기부금 영수증 유효한 형식은?</button>
                 <button class="quick-q" onclick="sendQuick(this.textContent)">중취감 청년 나이 기준은?</button>
                 <button class="quick-q" onclick="sendQuick(this.textContent)">반려 후 상태값 변경 가능한가요?</button>
-                <button class="quick-q" onclick="sendQuick(this.textContent)">월세 계약서 전입신고 기간 판단 기준?</button>
+                <button class="quick-q" onclick="sendQuick(this.textContent)">자리페이로 납부한 월세는?</button>
             </div>
         </div>
     </div>
@@ -284,150 +212,170 @@
 
 <div id="input-area">
     <div id="input-inner">
-        <textarea id="user-input" rows="1" placeholder="질문을 입력하세요... (Enter로 전송, Shift+Enter로 줄바꿈)"></textarea>
+        <textarea id="user-input" rows="1" placeholder="질문을 입력하세요... (Enter 전송, Shift+Enter 줄바꿈)"></textarea>
         <button id="send-btn" onclick="sendMessage()">➤</button>
     </div>
-    <div id="status-bar">문서 로딩 중...</div>
 </div>
 
 <script>
-    const chatArea = document.getElementById('chat-area');
-    const userInput = document.getElementById('user-input');
-    const sendBtn = document.getElementById('send-btn');
-    const statusBar = document.getElementById('status-bar');
+const DOCUMENT_CONTEXT = "=== 추가공제 서류검토 PT Onboarding (PDF) ===\n[PDF p.1]\n추가공제\n서류검토 PT Onboarding\n소 속 : 운영CX_IIT 파트\n담당자 : Operation Manager 박선경\n\n[PDF p.2]\n1. 팀 그라운드룰 (Team Ground Rules)\n: 팀이 효율적으로 작업하고 협력하기 위해 따르는 기본적인 규칙과 가이드라인을 의미합니다.\n\n[PDF p.5]\n2. 각종 계정 셋팅 및 앱 설치\n(업무 환경 조성)\n\n[PDF p.6]\nSlack 프로필 설정\n- 표시 이름 : OOO/운영PT(IIT_Docs)\n파트타이머 입사일 가이드\n1. PC 이름 설정\n2. 보안 가이드 확인\n3. 백신 설치\n4. NAC 에이전트 설치\n5. DLP 설치\n6. 식권대장 설치\n+ Google OTP VDI 설치\n\n[PDF p.9]\n용어 정의\n\n[PDF p.11]\n※유의사항※\n- unit 기준, “반려” 상태값 반영 시 다른\n상태값으로 변경 불가\n- 최종 공제 기준, “승인/반려” 상태값\n반영 시 다른 상태값으로 변경 불가\n\n[PDF p.12]\n공제 항목 (1) 기부금\n\n[PDF p.14]\n[메모]\n수정요청, 반려 시 사유를 작성합니다. (승인 시에도 특이사항이 있을 경우 작성 필요)\n[기부 유형]\n고객이 선택한 기부 유형이 노출됩니다. 만약 “기부금 영수증” 내 기부 유형과 다를 경우 수정이 필요합니다.\n[기부 금액]\n고객이 입력한 기부 금액이 노출됩니다. 만약 “기부금 영수증” 내 기부 금액과 다를 경우 수정이 필요합니다.\n[기부처 정보]\n공란으로 진입됩니다. 반드시 기부처를 등록해야만 처리가 가능합니다.\n“기부금 영수증” 내 기부처명과 사업자번호를 참고하여 검색 및 선택하여 반영합니다.\ntip. 기부처 정보 반영 시, 사업자번호로 검색하시길 권장합니다.\n기부처명으로 검색 시 전국에 지점이 있는 기부처들은 조회되는 건이 많아 찾기가 어렵습니다.\n\n[PDF p.15]\n기부금 영수증으로 인정하는 양식\n당비납부 총액영수증(세액 및 소득공제용) 제출\n\n[PDF p.16]\n기부금 영수증 양식으로는 가능하나 귀속연도\n불일치\n고향사랑 기부금 제출\n[기부금 영수증] 내 필수 항목(기부자 성명,\n기부처, 기부 금액, 기부 유형) 모두 확인\n가능하나,\n해당 case가 반려된 이유는?\n공제 귀속연도 22년, 기부금 납부 연\n23년으로 기부연도 불일치로 반려 대상\n\n[PDF p.17]\n기부금 영수증으로 인정하지 않는 양식\n후원금 납입내역 제출\n\n[PDF p.18]\n기부금 영수증으로 인정하지 않는 양식\n헌금 내역 조회서 제출\n\n[PDF p.19]\n소속증명서로 인정하는 양식\n(법인인 경우) 법인설립허가증 제출\n\n[PDF p.20]\n소속증명서로 인정하지 않는 양식\n소속증명서 ➡ 고유번호증으로 대체하여 제출\n\n[PDF p.21]\n소속증명서로 인정하지 않는 양식\n법인설립허가증 내 법인&기부처 단체명 상이\n\n[PDF p.22]\n서류 없음 케이스\n\n[PDF p.23]\n공제 항목 (2) 중취감\n\n[PDF p.25]\n병역기간 오입력 case는 중취감 계산기를 통해 승인/반려 여부 판단 후 처리 (무조건 반려 X)\n- 근무 기간과 오입력한 병역 기간이 겹치지 않으며\n- 만 34세 미만인 경우 (정확히는 33년 11개월 30일)\n\n[PDF p.27]\n정상 처리 건\n모든 조건 충족\n\n[PDF p.28]\n정상 처리 건 (군 복무 O)\n모든 조건 충족\n\n[PDF p.29]\n정상 처리 건 임의 승인 가능 CASE\n1. 근무 기간과 오입력한 병역 기간이 겹치지 않으며\n병역기간 오입력이나 임의 승인 (사용자<초본)\n2. 만 34세 미만인 경우\n\n[PDF p.30]\n반려 대상\n병역기간 오입력(사용자>초본, 근무기간과 병역기간 겹침)\n\n[PDF p.31]\n확인요청 워크플로 실행\n근무기간 시작일이 감면기간 시작일보다 앞서 있는 경우\n\n[PDF p.32]\n확인요청 워크플로 실행\n다른 사업지에서와의 모든 근무기간 겹쳐있는 경우\n\n[PDF p.33]\n확인요청 워크플로 실행\n다른 사업지에서와의 근무기간 겹쳐있는 경우\n\n[PDF p.34]\n확인요청 워크플로 실행\n한 사업지에서 근무기간이 짧게 겹치는 경우\n\n[PDF p.35]\n확인요청 워크플로 실행\n서류 처리 현황 홈택스 미제출인 경우\n\n[PDF p.36]\n확인요청 워크플로 실행\n초본 내 병역사항에 입영날짜만 표시된 경우\n\n[PDF p.37]\n확인요청 워크플로 실행\n[장애인]으로 유입된 건이나 ‘장애인 등록증’ 또는\n‘복지카드’가 제출되지 않은 경우\n\n[PDF p.38]\n공제 항목 [월세]\n\n[PDF p.44]\n임대차 계약서로 인정하는\n양식\n임대차 계약서 계약(해약)사실원 (LH, SH)\n\n[PDF p.45]\n임대차 계약서로 인정하는\n양식\n표준임대차계약\n서\n※표준임대차계약서의 경우 (필수 항목이 모두 포함된) 두 장의 계약서 첨부 필요\n\n[PDF p.46]\n임대차 계약서로 인정하는\n양식\n주택임대차신고필증\n\n[PDF p.47]\n임대차 계약서로 인정하는\n양식\n임차인명 수기 작성\n※손글씨로 확인돼도 임차인 및 임대인 이름 기재되어 있으면 OK\n\n[PDF p.48]\n임대차 계약서로 인정하는\n양식\n수취인=대리인 / 계약서 내 대리인 성명 수기로 작성\n※손글씨로 확인돼도 임차인 및 임대인(대리인) 이름 기재되어 있으면\nOK\n\n[PDF p.49]\n임대차 계약서로 인정하지 않는\n양식\n표준임대차계약서(전세)\n\n[PDF p.50]\n임대차 계약서로 인정하지 않는\n양식\n원본이 아닌 경우(캡처본)\n\n[PDF p.51]\n임대차 계약서로 인정하지 않는\n양식\n계약해지합의서\n\n[PDF p.52]\n임대차 계약서로 인정하지 않는\n양식\n양식은 가능하나 촬영 방식에\n의한 반려 건 (모니터 화면\n촬영본)\n\n[PDF p.53]\n임대차 계약서로 인정하지 않는\n양식\n손글씨 임대차 계약서\n\n[PDF p.54]\n임대차 계약서로 인정하지 않는\n양식\n임차인이 타인(신청자 본인이\n아님)\n\n[PDF p.55]\n임대차 계약서로 인정하지 않는\n양식\n전세 계약 사실 확인원(월세 X)\n\n[PDF p.56]\n월세 납입 증명서로 인정하는\n양식\n송금확인증\n이체확인증\n\n[PDF p.57]\n월세 납입 증명서로 인정하는\n양식\n대금납부확인원\n예금거래내역서\n\n[PDF p.58]\n월세 납입 증명서로 인정하는\n양식\n본인금융거래(입출금내역) 이체 결과 조회\n\n[PDF p.59]\n월세 납입 증명서로 인정하는\n양식\n임차인 성명과 비교 필요\n이체내역 + 통장 사본\n\n[PDF p.60]\n월세 납입 증명서로 인정하는\n양식\n임차인 성명과 비교 필요\n자동이체 결과 확인증 + 계좌개설확인서(통장사본)\n\n[PDF p.61]\n이체내역으로 인정하지 않는 양식\n현금납입\n증명서\n\n[PDF p.62]\n이체내역으로 인정하지 않는 양식\n엑셀 양식 제출\n\n[PDF p.63]\nQ&A 및 반려 환불 요청\n\n[PDF p.64]\n<예시>\n\n[PDF p.65]\n전달 조건 : unit 모두 “반려” 되어 최종 “반려”인 대상 중 서비스가 추가환급인 고객만\n\n[PDF p.66]\n최종 “반려”인 대상 중 서비스가 추가환급인 고객은 환불 요청 workflow 실행 + admin 메모 작성 필수!\n\n=== Confluence: [TAX] 월세 OCR 기획 ===\n[TAX] 월세 OCR 기획\n\n## 필요 데이터\n- 주민등록초본: 주소 거주 기간 (발생일 ~ 다음 주소지 발생일 전 날까지), 세대주 여부 (\"본인 거주자\" 표기 시 세대주로 인정)\n\n## 임대차 계약서 승인 조건\n- 필요한 데이터가 모두 추출되었음 (주소 / 월세 금액 / 임차인 & 임대인 정보 / 월세 기간)\n- 임차인 = 신청자 본인\n- 월세 계약서 (전세 매매 X)\n- 전입신고 기간에 월세 기간 포함됨 (반드시 일치할 필요 X)\n\n## 임대차 계약서 반려 사유 및 메시지\n- 필수항목 확인 불가: {누락된데이터}가 기재된 서류를 업로드 해주세요\n- 임차인이 타인임: 임차인이 타인인 경우 월세 공제 신청이 불가해요\n- 전세 계약서: 월세 계약서만 신청이 가능해요\n- 전입신고 기간에 월세 기간 미포함: 공제 가능한 연도가 없어 신청이 불가해요\n- 1회 반려 → 재업로드 요청 + 공제포기 / 2회 반려 → 수동검토 옵션 추가 제공\n\n## 납입증명서 승인 조건\n- 필요한 데이터 모두 추출됨 (이체 날짜 / 이체 금액 / 예금주 / 수취인)\n- 예금주 = 임차인 본인\n- 수취인 = 임대인\n- 월세 기간 전체 이체 내역 증빙 (선납/후납/한번에 이체도 합계 맞으면 인정)\n\n## 납입증명서 반려 사유\n- 예금주 ≠ 임차인: 예금주명과 임차인명이 일치하지 않아 공제가 불가해요\n- 수취인 ≠ 임대인: 수취인명과 임대인명이 일치하지 않아 공제가 불가해요\n- 자리페이/단비페이/PAYAPP 포함: 카드로 납부한 월세는 공제가 불가해요\n\n## TD 전송 금액 기준\n- 계약서 월세 금액 > 이체 금액: 납입증명서 실 이체 금액 사용\n- 계약서 월세 금액 < 이체 금액: 임대차 계약서 금액 사용\n\n## 주소 불일치 허용 케이스 (동일 주소로 인정)\n- 구분자 하이픈: 104동 702호 vs 104-702\n- 동·호 붙여쓰기: 104동702호\n- 호 생략: 104동 702\n- 동 생략: 702호\n- 숫자 앞에 0: 0104동 0702호\n- 전각 숫자, 호실 표기, 아파트명 포함 등\n\n## 서류 자동승인 기준\n- 임대차 계약서: 임차인=본인, 월세계약기간과 공제가능연도 겹침\n- 납입증명서: 예금주=임차인, 수취인=임대인, 공제가능연도 이체내역 첨부\n- 주민등록초본: 초본 주소지=계약서 주소지, 거주기간과 계약기간 겹침, 세대주로 전입신고\n\n=== Confluence: [IIT X DP] 월세 서류검토 판단 조건 ===\n[IIT X DP] 월세 서류검토 판단 조건\n\n## admin/서류별 확인 정보\n- admin: 월세 유닛 내 (월세 금액 / 월세 기간 / 증빙서류 이미지) — 전입신고 기간은 운영자가 직접 입력\n- 초본: 성명, 주소, 전입신고 발생/신고일, 세대주 및 관계 — 개명 시 정정 내역 확인\n- 임대차 계약서: 주소 / 월세 금액 / 임차인 & 임대인 정보\n- 월세 납입 증명서: 예금주(보낸 사람) / 수취인(받는 사람) / 이체 일시 / 이체 금액\n  * SMS문자, 카카오톡, 엑셀 파일 → 인정 불가\n\n## 판단 흐름\n\n### 1단계: 월세 공제 해당 여부\n- X: 반려 / O: 검토 진행\n\n### 2단계: 임대차 계약서\n- 전세: 반려\n- 월세: 검토 진행\n- 계약서 미제출/부적합/필수항목 누락: 수정요청\n\n### 3단계: 본인 계약 & 세대주/전입신고\n반려:\na. 임차인이 타인 (임대차 계약서 내 임차인과 초본 성명 비교)\nb. 계약서 주소지로 전입신고 이력 자체 없음\nc. 전입신고 이력 있으나 세대주 아님 (세대원 or 동거인)\nd. 전입신고 이력 있으나 월세 기간 미포함\n\n승인: 계약서 주소지 세대주로 전입신고, 월세 기간 포함\n\n### 4단계: 이체 내역 확인\n반려: 임차인 ≠ 예금주 / 임대인 ≠ 수취인\n승인:\na. 월세 기간 동안 임차인=예금주, 임대인=수취인 이체 내역 전부 증빙\nb. 임차인≠예금주이나 계약서 내 명시되어 증빙 가능한 경우\nc. 임대인≠수취인이나 계약서 내 명시되어 증빙 가능한 경우\nd. 일부 내역만 제출했으나 [일부 서류없음] 응답한 경우 (해당 월만 금액 곱해 계산)\n수정요청: 납입증명서 미제출/부적합, 일부 내역만 제출\n\n### 5단계: 전입신고 기간 입력 & 최종 승인\n- 월세 금액 > 이체 내역: 이체 내역 실 금액으로 진행\n- 월세 금액 < 이체 내역: 임대차 계약서 금액으로 진행\n- 월세 금액 중도 변경(하향): 높은 금액 기준 진행\n- 월세 금액 중도 변경(상향): 낮은 금액 기준 진행\n\n## 특이사항\n1. 초본 내 세대주가 아닌 \"본인 거주자\"로 표기되어 있어도 세대주로 인정\n2. 계약서 월세금액 + n% 범위면 완벽히 일치하지 않아도 인정 (예: 월세 50만, 이체 55만 → 50만으로 반영)\n3. 납입증명서에 '자리페이' '단비페이' 'PAYAPP' 키워드 포함 시 반려 (카드 납부는 월세 공제 불가)\n4. 선납/후납/한번에 이체 내역도 인정 (합계가 맞는 경우)\n   - 이체 내역 내 송금 일시가 달라야 함 (초 단위까지 달라야 2건 인정)\n5. 일부 서류없음 응답 시 전입신고 기간 종료일에서 1개월씩 차감하여 인정\n\n=== Confluence: 월세 관련 어드민 및 워크시트 관리 절차 ===\n월세 관련 어드민 및 워크시트 관리 절차\n\n## 진입 경로\n어드민 → 종합소득세 → 추가정보 관리\n\n## 처리 절차\n\n### 1단계: 배정하기\n- 확인필요 및 수정완료 탭 내 담당자 미배정 건 배정하기\n\n### 2단계: 임대차 계약서 정보 입력\n- 임대차 계약서 없음: '임대차 계약서 미첨부' → 수정요청\n- 임차인이 타인 (비고): '임차인이 타인' → 반려\n- 전세 계약서: '전세 (월세 X)' → 반려\n- 임차인/임대인/주소/월세 금액/월세 기간 없음: '임대차 계약서에 정보 없음' → 수정요청\n- 한 Unit에 다른 주소지 계약서 여러 개 첨부: '유닛 하나에 N개 계약서 첨부' → 반려\n- 월세 기간 내 월세 금액 변경: '월세 금액 중도 변경' → 반려\n\n### 3단계: 초본 정보 입력\n- 전입신고 없음: '전입신고 X' → 반려\n- 전입신고 기간과 공제 가능 연도 중복 없음: '공제 가능 연도 아님' → 반려\n\n### 4단계: 월세 기간 입력\n- (전입신고 기간 × 공제 가능 연도)와 월세 신청 기간 중복 없음: '공제 가능 기간 아님' → 반려\n\n### 5단계: 납입 내역 확인\n- 이체 내역 일부만 첨부: '이체 내역 누락' → 수정요청\n- 예금주/수취인 명 없음: '수취인/예금주명 누락' → 수정요청\n- 수취인명 ≠ 임대인명: '수취인 정보 불일치' → 반려\n- 예금주명 ≠ 임차인명: '예금주 정보 불일치' → 반려\n- 납입 내역 증빙 불가 시: 해당 월 증빙불가 처리 후 정상 체크\n- 공제 가능 연도 이외 서류 첨부: 'XX년 이체내역 삭제' → 첨부수정\n\n### 6단계: 최종 상태값 반영\n- 승인: 시트 내 전입신고 기간 반영\n- 수정요청/반려: 어드민 내 메모란에 사유 작성\n\n## 상태값 규칙\n- unit 기준 반려 반영 시 다른 상태값으로 변경 불가\n- 최종 공제 기준 승인/반려 반영 시 다른 상태값으로 변경 불가\n- 상태값 종류: 확인필요, 수정요청, 입력완료, 수정완료, 반려, 승인";
 
-    let conversationHistory = [];
-    let isLoading = false;
+const SYSTEM_PROMPT = `당신은 삼쩜삼(자비스앤빌런즈)의 추가공제 서류검토 전문 어시스턴트입니다.
+월세, 기부금, 중소기업취업감면(중취감) 관련 서류 심사를 담당하는 팀원들의 업무 질문에 답변합니다.
 
-    // Auto-resize textarea
-    userInput.addEventListener('input', () => {
-        userInput.style.height = 'auto';
-        userInput.style.height = Math.min(userInput.scrollHeight, 160) + 'px';
-    });
+아래는 내부 기획 문서와 가이드입니다. 이 문서를 기반으로만 답변하세요.
 
-    // Enter to send
-    userInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            sendMessage();
-        }
-    });
+${DOCUMENT_CONTEXT}
 
-    function appendMessage(role, text) {
-        const div = document.createElement('div');
-        div.className = `message ${role}`;
+---
+답변 원칙:
+1. 문서에 명확한 기준이 있으면 그대로 인용하며 구체적으로 답변하세요.
+2. 문서에 없는 내용은 "문서에 명확한 기준이 없습니다"라고 솔직히 말하세요.
+3. 반려/수정요청/승인 등 상태값 처리가 관련된 질문은 상태값과 절차를 함께 안내하세요.
+4. 한국어로 답변하세요.`;
 
-        const avatar = document.createElement('div');
-        avatar.className = 'avatar';
-        avatar.textContent = role === 'user' ? '👤' : '🤖';
+const chatArea = document.getElementById('chat-area');
+const userInput = document.getElementById('user-input');
+const sendBtn = document.getElementById('send-btn');
+let conversationHistory = [];
+let isLoading = false;
 
-        const bubble = document.createElement('div');
-        bubble.className = 'bubble';
-        bubble.textContent = text;
+// Auto-resize textarea
+userInput.addEventListener('input', () => {
+    userInput.style.height = 'auto';
+    userInput.style.height = Math.min(userInput.scrollHeight, 140) + 'px';
+});
+userInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+});
 
-        div.appendChild(avatar);
-        div.appendChild(bubble);
-        chatArea.appendChild(div);
-        chatArea.scrollTop = chatArea.scrollHeight;
-        return bubble;
+function getApiKey() { return localStorage.getItem('anthropic_api_key'); }
+
+function showApiKeyModal() {
+    const overlay = document.getElementById('modal-overlay');
+    overlay.classList.add('show');
+    const existing = getApiKey();
+    if (existing) document.getElementById('api-key-input').value = existing;
+}
+
+function saveApiKey() {
+    const key = document.getElementById('api-key-input').value.trim();
+    const errEl = document.getElementById('key-error');
+    if (!key.startsWith('sk-ant-')) {
+        errEl.textContent = 'API 키는 sk-ant- 로 시작해야 해요.';
+        errEl.style.display = 'block';
+        return;
     }
+    errEl.style.display = 'none';
+    localStorage.setItem('anthropic_api_key', key);
+    document.getElementById('modal-overlay').classList.remove('show');
+}
 
-    function showTyping() {
-        const div = document.createElement('div');
-        div.className = 'message assistant';
-        div.id = 'typing-msg';
+function appendMessage(role, text) {
+    const div = document.createElement('div');
+    div.className = `message ${role}`;
+    const avatar = document.createElement('div');
+    avatar.className = 'avatar';
+    avatar.textContent = role === 'user' ? '👤' : '🤖';
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.textContent = text;
+    div.appendChild(avatar);
+    div.appendChild(bubble);
+    chatArea.appendChild(div);
+    chatArea.scrollTop = chatArea.scrollHeight;
+}
 
-        const avatar = document.createElement('div');
-        avatar.className = 'avatar';
-        avatar.textContent = '🤖';
+function showTyping() {
+    const div = document.createElement('div');
+    div.className = 'message assistant';
+    div.id = 'typing-msg';
+    const avatar = document.createElement('div');
+    avatar.className = 'avatar';
+    avatar.textContent = '🤖';
+    const ind = document.createElement('div');
+    ind.className = 'typing-indicator';
+    ind.innerHTML = '<span></span><span></span><span></span>';
+    div.appendChild(avatar);
+    div.appendChild(ind);
+    chatArea.appendChild(div);
+    chatArea.scrollTop = chatArea.scrollHeight;
+}
 
-        const indicator = document.createElement('div');
-        indicator.className = 'typing-indicator';
-        indicator.innerHTML = '<span></span><span></span><span></span>';
+function removeTyping() {
+    const el = document.getElementById('typing-msg');
+    if (el) el.remove();
+}
 
-        div.appendChild(avatar);
-        div.appendChild(indicator);
-        chatArea.appendChild(div);
-        chatArea.scrollTop = chatArea.scrollHeight;
-    }
+async function sendMessage(text) {
+    const apiKey = getApiKey();
+    if (!apiKey) { showApiKeyModal(); return; }
 
-    function removeTyping() {
-        const el = document.getElementById('typing-msg');
-        if (el) el.remove();
-    }
+    const msg = (text || userInput.value).trim();
+    if (!msg || isLoading) return;
 
-    async function sendMessage(text) {
-        const msg = (text || userInput.value).trim();
-        if (!msg || isLoading) return;
+    userInput.value = '';
+    userInput.style.height = 'auto';
+    isLoading = true;
+    sendBtn.disabled = true;
 
-        userInput.value = '';
-        userInput.style.height = 'auto';
-        isLoading = true;
-        sendBtn.disabled = true;
+    appendMessage('user', msg);
+    showTyping();
 
-        appendMessage('user', msg);
-        showTyping();
+    const messages = [
+        ...conversationHistory.slice(-10),
+        { role: 'user', content: msg }
+    ];
 
-        try {
-            const res = await fetch('/api/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    message: msg,
-                    history: conversationHistory
-                })
-            });
+    try {
+        const res = await fetch('https://api.anthropic.com/v1/messages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': apiKey,
+                'anthropic-version': '2023-06-01',
+                'anthropic-dangerous-direct-browser-access': 'true'
+            },
+            body: JSON.stringify({
+                model: 'claude-sonnet-4-6',
+                max_tokens: 2048,
+                system: SYSTEM_PROMPT,
+                messages: messages
+            })
+        });
 
-            removeTyping();
+        removeTyping();
 
-            if (!res.ok) {
-                const err = await res.json().catch(() => ({ detail: res.statusText }));
-                appendMessage('assistant', `오류가 발생했습니다: ${err.detail || res.statusText}`);
+        if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            if (res.status === 401) {
+                appendMessage('assistant', 'API 키가 올바르지 않아요. 우측 상단 ⚙️를 눌러 키를 다시 입력해주세요.');
             } else {
-                const data = await res.json();
-                appendMessage('assistant', data.reply);
-                conversationHistory.push({ role: 'user', content: msg });
-                conversationHistory.push({ role: 'assistant', content: data.reply });
+                appendMessage('assistant', `오류: ${err.error?.message || res.statusText}`);
             }
-        } catch (e) {
-            removeTyping();
-            appendMessage('assistant', `네트워크 오류: ${e.message}\n\n서버가 실행 중인지 확인해주세요.`);
+        } else {
+            const data = await res.json();
+            const reply = data.content[0].text;
+            appendMessage('assistant', reply);
+            conversationHistory.push({ role: 'user', content: msg });
+            conversationHistory.push({ role: 'assistant', content: reply });
         }
-
-        isLoading = false;
-        sendBtn.disabled = false;
-        userInput.focus();
+    } catch (e) {
+        removeTyping();
+        appendMessage('assistant', `네트워크 오류: ${e.message}`);
     }
 
-    function sendQuick(text) {
-        sendMessage(text);
-    }
+    isLoading = false;
+    sendBtn.disabled = false;
+    userInput.focus();
+}
 
-    // Check backend status on load
-    async function checkStatus() {
-        try {
-            const res = await fetch('/api/status');
-            if (res.ok) {
-                const data = await res.json();
-                if (data.documents_loaded) {
-                    statusBar.textContent = `문서 로딩 완료 (${(data.context_length / 1000).toFixed(0)}K 글자)`;
-                    statusBar.className = '';
-                } else {
-                    statusBar.textContent = '문서 로딩 중...';
-                    setTimeout(checkStatus, 3000);
-                }
-            } else {
-                statusBar.textContent = '서버 연결 오류';
-                statusBar.className = 'error';
-            }
-        } catch {
-            statusBar.textContent = '서버를 시작해주세요: uvicorn main:app --reload';
-            statusBar.className = 'error';
-        }
-    }
+function sendQuick(text) { sendMessage(text); }
 
-    checkStatus();
+// Check API key on load
+window.addEventListener('load', () => {
+    if (!getApiKey()) showApiKeyModal();
+});
 </script>
-
 </body>
 </html>
