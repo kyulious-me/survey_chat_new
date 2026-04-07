@@ -249,7 +249,7 @@ userInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
 });
 
-function getApiKey() { return localStorage.getItem('gemini_api_key'); }
+function getApiKey() { return localStorage.getItem('groq_api_key'); }
 
 function showApiKeyModal() {
     const overlay = document.getElementById('modal-overlay');
@@ -267,7 +267,7 @@ function saveApiKey() {
         return;
     }
     errEl.style.display = 'none';
-    localStorage.setItem('gemini_api_key', key);
+    localStorage.setItem('groq_api_key', key);
     document.getElementById('modal-overlay').classList.remove('show');
 }
 
@@ -322,26 +322,26 @@ async function sendMessage(text) {
     appendMessage('user', msg);
     showTyping();
 
-    // Build Gemini contents array (history + current message)
-    const contents = [];
+    // Build messages array (history + current message)
+    const messages = [{ role: 'system', content: SYSTEM_PROMPT }];
     for (const h of conversationHistory.slice(-10)) {
-        contents.push({
-            role: h.role === 'assistant' ? 'model' : 'user',
-            parts: [{ text: h.content }]
-        });
+        messages.push({ role: h.role, content: h.content });
     }
-    contents.push({ role: 'user', parts: [{ text: msg }] });
+    messages.push({ role: 'user', content: msg });
 
     try {
         const res = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+            'https://api.groq.com/openai/v1/chat/completions',
             {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
                 body: JSON.stringify({
-                    system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-                    contents: contents,
-                    generationConfig: { maxOutputTokens: 2048 }
+                    model: 'llama-3.3-70b-versatile',
+                    messages: messages,
+                    max_tokens: 2048
                 })
             }
         );
@@ -350,14 +350,14 @@ async function sendMessage(text) {
 
         if (!res.ok) {
             const err = await res.json().catch(() => ({}));
-            if (res.status === 400 || res.status === 403) {
+            if (res.status === 401) {
                 appendMessage('assistant', 'API 키가 올바르지 않아요. 우측 상단 ⚙️를 눌러 키를 다시 입력해주세요.');
             } else {
                 appendMessage('assistant', `오류: ${err.error?.message || res.statusText}`);
             }
         } else {
             const data = await res.json();
-            const reply = data.candidates[0].content.parts[0].text;
+            const reply = data.choices[0].message.content;
             appendMessage('assistant', reply);
             conversationHistory.push({ role: 'user', content: msg });
             conversationHistory.push({ role: 'assistant', content: reply });
