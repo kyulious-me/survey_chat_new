@@ -173,11 +173,11 @@
 <!-- API Key Modal -->
 <div id="modal-overlay">
     <div id="modal">
-        <h2>🔑 Anthropic API 키 설정</h2>
-        <p>챗봇을 사용하려면 Anthropic API 키가 필요해요.<br>
+        <h2>🔑 Gemini API 키 설정</h2>
+        <p>챗봇을 사용하려면 Google Gemini API 키가 필요해요. <b>무료</b>로 사용 가능해요!<br>
         키는 브라우저에만 저장되며 외부로 전송되지 않아요.<br>
-        <a href="https://console.anthropic.com" target="_blank" style="color:#3d5afe">console.anthropic.com</a>에서 발급할 수 있어요.</p>
-        <input type="password" id="api-key-input" placeholder="sk-ant-api03-..." />
+        <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#3d5afe">aistudio.google.com</a> → Get API key에서 발급하세요.</p>
+        <input type="password" id="api-key-input" placeholder="AIza..." />
         <div id="key-error" class="error-msg" style="display:none"></div>
         <button id="save-key-btn" onclick="saveApiKey()">저장하고 시작하기</button>
     </div>
@@ -249,7 +249,7 @@ userInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
 });
 
-function getApiKey() { return localStorage.getItem('anthropic_api_key'); }
+function getApiKey() { return localStorage.getItem('gemini_api_key'); }
 
 function showApiKeyModal() {
     const overlay = document.getElementById('modal-overlay');
@@ -261,13 +261,13 @@ function showApiKeyModal() {
 function saveApiKey() {
     const key = document.getElementById('api-key-input').value.trim();
     const errEl = document.getElementById('key-error');
-    if (!key.startsWith('sk-ant-')) {
-        errEl.textContent = 'API 키는 sk-ant- 로 시작해야 해요.';
+    if (!key || key.length < 10) {
+        errEl.textContent = 'API 키를 올바르게 입력해주세요.';
         errEl.style.display = 'block';
         return;
     }
     errEl.style.display = 'none';
-    localStorage.setItem('anthropic_api_key', key);
+    localStorage.setItem('gemini_api_key', key);
     document.getElementById('modal-overlay').classList.remove('show');
 }
 
@@ -322,40 +322,42 @@ async function sendMessage(text) {
     appendMessage('user', msg);
     showTyping();
 
-    const messages = [
-        ...conversationHistory.slice(-10),
-        { role: 'user', content: msg }
-    ];
+    // Build Gemini contents array (history + current message)
+    const contents = [];
+    for (const h of conversationHistory.slice(-10)) {
+        contents.push({
+            role: h.role === 'assistant' ? 'model' : 'user',
+            parts: [{ text: h.content }]
+        });
+    }
+    contents.push({ role: 'user', parts: [{ text: msg }] });
 
     try {
-        const res = await fetch('https://api.anthropic.com/v1/messages', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-api-key': apiKey,
-                'anthropic-version': '2023-06-01',
-                'anthropic-dangerous-direct-browser-access': 'true'
-            },
-            body: JSON.stringify({
-                model: 'claude-sonnet-4-6',
-                max_tokens: 2048,
-                system: SYSTEM_PROMPT,
-                messages: messages
-            })
-        });
+        const res = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+                    contents: contents,
+                    generationConfig: { maxOutputTokens: 2048 }
+                })
+            }
+        );
 
         removeTyping();
 
         if (!res.ok) {
             const err = await res.json().catch(() => ({}));
-            if (res.status === 401) {
+            if (res.status === 400 || res.status === 403) {
                 appendMessage('assistant', 'API 키가 올바르지 않아요. 우측 상단 ⚙️를 눌러 키를 다시 입력해주세요.');
             } else {
                 appendMessage('assistant', `오류: ${err.error?.message || res.statusText}`);
             }
         } else {
             const data = await res.json();
-            const reply = data.content[0].text;
+            const reply = data.candidates[0].content.parts[0].text;
             appendMessage('assistant', reply);
             conversationHistory.push({ role: 'user', content: msg });
             conversationHistory.push({ role: 'assistant', content: reply });
