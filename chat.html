@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>삼쩜삼 서류검토 Q&A</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Segoe UI', sans-serif;
+            background: #f5f6fa;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: #1a1a2e;
+            color: white;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        header .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #7b9fff;
+        }
+
+        header .subtitle {
+            font-size: 13px;
+            color: #aab4cc;
+            margin-top: 2px;
+        }
+
+        header .badge {
+            margin-left: auto;
+            background: #2e3a5c;
+            color: #7b9fff;
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        #chat-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-width: 860px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .message {
+            display: flex;
+            gap: 10px;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; } }
+
+        .message.user { flex-direction: row-reverse; }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .message.assistant .avatar { background: #1a1a2e; }
+        .message.user .avatar { background: #3d5afe; }
+
+        .bubble {
+            max-width: 72%;
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 14.5px;
+            line-height: 1.65;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .message.assistant .bubble {
+            background: white;
+            color: #222;
+            border: 1px solid #e5e8f0;
+            border-top-left-radius: 4px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+
+        .message.user .bubble {
+            background: #3d5afe;
+            color: white;
+            border-top-right-radius: 4px;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            padding: 14px 18px;
+            background: white;
+            border: 1px solid #e5e8f0;
+            border-radius: 14px;
+            border-top-left-radius: 4px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            width: fit-content;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #aab4cc;
+            animation: bounce 1.2s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes bounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-6px); }
+        }
+
+        #input-area {
+            background: white;
+            border-top: 1px solid #e5e8f0;
+            padding: 14px 16px;
+        }
+
+        #input-inner {
+            max-width: 860px;
+            margin: 0 auto;
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        #user-input {
+            flex: 1;
+            border: 1.5px solid #dde2f0;
+            border-radius: 10px;
+            padding: 11px 14px;
+            font-size: 14.5px;
+            font-family: inherit;
+            resize: none;
+            outline: none;
+            line-height: 1.5;
+            max-height: 160px;
+            overflow-y: auto;
+            transition: border-color 0.15s;
+        }
+
+        #user-input:focus { border-color: #3d5afe; }
+
+        #send-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            border: none;
+            background: #3d5afe;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.15s, transform 0.1s;
+        }
+
+        #send-btn:hover { background: #2a46e0; }
+        #send-btn:active { transform: scale(0.95); }
+        #send-btn:disabled { background: #c0c8e8; cursor: not-allowed; }
+
+        .quick-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .quick-q {
+            background: #eef1ff;
+            color: #3d5afe;
+            border: 1px solid #c5cef8;
+            border-radius: 20px;
+            padding: 7px 14px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .quick-q:hover { background: #dce3ff; }
+
+        .welcome-card {
+            background: white;
+            border: 1px solid #e5e8f0;
+            border-radius: 16px;
+            padding: 20px 22px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+
+        .welcome-card h3 {
+            font-size: 15px;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+        }
+
+        .welcome-card p {
+            font-size: 13.5px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 14px;
+        }
+
+        .topics {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .topic-tag {
+            background: #f0f3ff;
+            color: #3d5afe;
+            border: 1px solid #c5cef8;
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-size: 12.5px;
+            font-weight: 600;
+        }
+
+        #status-bar {
+            font-size: 11.5px;
+            color: #aab4cc;
+            text-align: center;
+            padding: 6px 0 0;
+        }
+
+        #status-bar.error { color: #e74c3c; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <div class="logo">삼쩜삼 서류검토 도우미</div>
+        <div class="subtitle">월세 · 기부금 · 중소기업취업감면 Q&A</div>
+    </div>
+    <div class="badge">내부 전용</div>
+</header>
+
+<div id="chat-area">
+    <div class="message assistant">
+        <div class="avatar">🤖</div>
+        <div>
+            <div class="bubble">안녕하세요! 저는 추가공제 서류검토 가이드를 학습한 AI 어시스턴트입니다.<br><br>
+월세, 기부금, 중소기업취업감면(중취감) 서류 심사 관련 질문에 답변해 드릴게요. 아래 예시 질문을 눌러보거나 직접 입력해 주세요.</div>
+            <div class="quick-questions" style="margin-top: 10px;">
+                <button class="quick-q" onclick="sendQuick(this.textContent)">납입증명서 예금주와 임차인이 다르면?</button>
+                <button class="quick-q" onclick="sendQuick(this.textContent)">초본에 '본인 거주자' 표기 시 세대주 인정?</button>
+                <button class="quick-q" onclick="sendQuick(this.textContent)">기부금 영수증 유효한 형식은?</button>
+                <button class="quick-q" onclick="sendQuick(this.textContent)">중취감 청년 나이 기준은?</button>
+                <button class="quick-q" onclick="sendQuick(this.textContent)">반려 후 상태값 변경 가능한가요?</button>
+                <button class="quick-q" onclick="sendQuick(this.textContent)">월세 계약서 전입신고 기간 판단 기준?</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="input-area">
+    <div id="input-inner">
+        <textarea id="user-input" rows="1" placeholder="질문을 입력하세요... (Enter로 전송, Shift+Enter로 줄바꿈)"></textarea>
+        <button id="send-btn" onclick="sendMessage()">➤</button>
+    </div>
+    <div id="status-bar">문서 로딩 중...</div>
+</div>
+
+<script>
+    const chatArea = document.getElementById('chat-area');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+    const statusBar = document.getElementById('status-bar');
+
+    let conversationHistory = [];
+    let isLoading = false;
+
+    // Auto-resize textarea
+    userInput.addEventListener('input', () => {
+        userInput.style.height = 'auto';
+        userInput.style.height = Math.min(userInput.scrollHeight, 160) + 'px';
+    });
+
+    // Enter to send
+    userInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+
+    function appendMessage(role, text) {
+        const div = document.createElement('div');
+        div.className = `message ${role}`;
+
+        const avatar = document.createElement('div');
+        avatar.className = 'avatar';
+        avatar.textContent = role === 'user' ? '👤' : '🤖';
+
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        bubble.textContent = text;
+
+        div.appendChild(avatar);
+        div.appendChild(bubble);
+        chatArea.appendChild(div);
+        chatArea.scrollTop = chatArea.scrollHeight;
+        return bubble;
+    }
+
+    function showTyping() {
+        const div = document.createElement('div');
+        div.className = 'message assistant';
+        div.id = 'typing-msg';
+
+        const avatar = document.createElement('div');
+        avatar.className = 'avatar';
+        avatar.textContent = '🤖';
+
+        const indicator = document.createElement('div');
+        indicator.className = 'typing-indicator';
+        indicator.innerHTML = '<span></span><span></span><span></span>';
+
+        div.appendChild(avatar);
+        div.appendChild(indicator);
+        chatArea.appendChild(div);
+        chatArea.scrollTop = chatArea.scrollHeight;
+    }
+
+    function removeTyping() {
+        const el = document.getElementById('typing-msg');
+        if (el) el.remove();
+    }
+
+    async function sendMessage(text) {
+        const msg = (text || userInput.value).trim();
+        if (!msg || isLoading) return;
+
+        userInput.value = '';
+        userInput.style.height = 'auto';
+        isLoading = true;
+        sendBtn.disabled = true;
+
+        appendMessage('user', msg);
+        showTyping();
+
+        try {
+            const res = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    message: msg,
+                    history: conversationHistory
+                })
+            });
+
+            removeTyping();
+
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({ detail: res.statusText }));
+                appendMessage('assistant', `오류가 발생했습니다: ${err.detail || res.statusText}`);
+            } else {
+                const data = await res.json();
+                appendMessage('assistant', data.reply);
+                conversationHistory.push({ role: 'user', content: msg });
+                conversationHistory.push({ role: 'assistant', content: data.reply });
+            }
+        } catch (e) {
+            removeTyping();
+            appendMessage('assistant', `네트워크 오류: ${e.message}\n\n서버가 실행 중인지 확인해주세요.`);
+        }
+
+        isLoading = false;
+        sendBtn.disabled = false;
+        userInput.focus();
+    }
+
+    function sendQuick(text) {
+        sendMessage(text);
+    }
+
+    // Check backend status on load
+    async function checkStatus() {
+        try {
+            const res = await fetch('/api/status');
+            if (res.ok) {
+                const data = await res.json();
+                if (data.documents_loaded) {
+                    statusBar.textContent = `문서 로딩 완료 (${(data.context_length / 1000).toFixed(0)}K 글자)`;
+                    statusBar.className = '';
+                } else {
+                    statusBar.textContent = '문서 로딩 중...';
+                    setTimeout(checkStatus, 3000);
+                }
+            } else {
+                statusBar.textContent = '서버 연결 오류';
+                statusBar.className = 'error';
+            }
+        } catch {
+            statusBar.textContent = '서버를 시작해주세요: uvicorn main:app --reload';
+            statusBar.className = 'error';
+        }
+    }
+
+    checkStatus();
+</script>
+
+</body>
+</html>
